@@ -5,6 +5,7 @@ import 'handlers.dart';
 class Routes {
   static String home = "/home";
   static String login = "/login";
+  static String register = "/register";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(
@@ -16,6 +17,7 @@ class Routes {
     router.define(home, handler: HomeHandler);
     //登录
     router.define(login, handler: loginHandler);
-
+    //注册
+    router.define(register, handler: RegisterHandler);
   }
 }

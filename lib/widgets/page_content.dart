@@ -10,7 +10,7 @@ class PageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Center(child: Text("当前页面：$name"))),
+      appBar: AppBar(title: Center(child: Text("$name"))),
       body: Center(
           child: MyButton(), // 在这里添加按钮组件
         ),
