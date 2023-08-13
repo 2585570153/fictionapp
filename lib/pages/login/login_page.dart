@@ -2,6 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
 import '../../routes/global.dart';
+import '../../widgets/commom_image.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -29,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox( height: 20.0),
               Container(
             width: 200,
-            child: Image.asset('assets/images/logo.png'), // 替换为您的图片路径
+            child: CommonImage('assets/images/logo.png'), // 替换为您的图片路径
           ),  
               SizedBox( height: 20.0),
               TextField(
