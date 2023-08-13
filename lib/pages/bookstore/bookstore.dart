@@ -1,6 +1,8 @@
 import 'package:fictionapp/widgets/commom_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+
+import '../../widgets/home_recommend.dart';
 class BookStore extends StatefulWidget {
   const BookStore({super.key});
 
@@ -22,7 +24,9 @@ class _BookStoreState extends State<BookStore> {
         title: Text('书城'),
        centerTitle: true,
       ),
-        body: Center(
+        body: SafeArea(
+        minimum: EdgeInsets.all(12),
+        
         child: Column(
           children: [
             Container(
@@ -39,6 +43,9 @@ class _BookStoreState extends State<BookStore> {
                 pagination: SwiperPagination(),
               ),
             ),
+            Container(
+              child:  HomeRecommend()
+            )
           ],
         ),
       ),
