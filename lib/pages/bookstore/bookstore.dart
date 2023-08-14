@@ -25,7 +25,7 @@ class _BookStoreState extends State<BookStore> {
        centerTitle: true,
       ),
         body: SafeArea(
-        minimum: EdgeInsets.all(12),
+        minimum: EdgeInsets.all(15),
         
         child: Column(
           children: [
@@ -35,10 +35,13 @@ class _BookStoreState extends State<BookStore> {
                 itemCount: _imagesUrls.length,
                 autoplay: true,
                 itemBuilder: (BuildContext context, int index) {
-                  return CommonImage(
+                  //AspectRatio 设置轮播图根据指定的宽高比例自动调整其子部件的尺寸
+                  return AspectRatio(
+                aspectRatio: 16 / 9,
+                child: CommonImage(
                     _imagesUrls[index],
                     fit: BoxFit.fill,
-                  );
+                  ));
                 },
                 pagination: SwiperPagination(),
               ),
