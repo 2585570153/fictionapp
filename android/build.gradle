@@ -3,6 +3,8 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+
+
     }
 
     dependencies {
@@ -13,8 +15,9 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
-        mavenCentral()
+        // google()
+        // mavenCentral()
+    maven { url 'https://mirrors.tuna.tsinghua.edu.cn/flutter/download.flutter.io' }
     }
 }
 

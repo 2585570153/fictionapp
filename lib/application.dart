@@ -1,6 +1,5 @@
 
 import 'package:fictionapp/pages/home/home_page.dart';
-import 'package:fictionapp/routes/global.dart';
 
 import 'package:flutter/material.dart';
 
