@@ -26,10 +26,15 @@ class HomeRecommend extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.all(5.0), // 设置内边距为5像素
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        color: Color.fromARGB(255, 251, 137, 15)),
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),//圆角
+                      gradient: LinearGradient(
+                        colors: [Color.fromARGB(255, 237, 177, 108), Color.fromARGB(255, 252, 164, 70)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
                     width: (MediaQuery.of(context).size.width - 40) / 2,
-                    height: 100.0,
+                    height: 85.0,
                     child: Row(children: <Widget>[
                       CommonImage(
                         item.imageUrl,

@@ -1,4 +1,5 @@
 import 'package:fictionapp/widgets/commom_image.dart';
+import 'package:fictionapp/widgets/grid_fiction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
@@ -27,7 +28,7 @@ class _BookStoreState extends State<BookStore> {
       ),
       body: SafeArea(
         minimum: EdgeInsets.all(15),
-        child: Column(
+        child: ListView(
           children: [
             Container(
               height: 160,
@@ -49,7 +50,25 @@ class _BookStoreState extends State<BookStore> {
                 pagination: SwiperPagination(),
               ),
             ),
-            Container(child: HomeRecommend())
+            Container(child: HomeRecommend()),
+            Container(
+                child: GridFiction(
+              name: '男生推荐',
+              id: '6',
+              bigclass: 'nansheng',
+            )),
+            Container(
+                child: GridFiction(
+              name: '女生推荐',
+              id: '6',
+              bigclass: 'nvsheng',
+            )),
+            Container(
+                child: GridFiction(
+              name: '出版推荐',
+              id: '6',
+              bigclass: 'chuban',
+            )),
           ],
         ),
       ),

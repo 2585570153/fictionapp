@@ -18,9 +18,8 @@ class Application extends StatelessWidget {
       // initialRoute: '/home',
       home: HomePage(),
       theme: ThemeData(
-        primaryColor: Colors.blue, // 设置主题色
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          selectedItemColor: Colors.blue, // 设置选中项的图标和字体颜色
+          selectedItemColor: Color.fromARGB(255, 80, 167, 238), // 设置选中项的图标和字体颜色
           unselectedItemColor: Color.fromARGB(255, 65, 65, 66), // 设置未选中项的图标和字体颜色
         ),
       ),
