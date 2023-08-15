@@ -15,7 +15,10 @@ class GridFiction extends StatefulWidget {
   State<GridFiction> createState() => _GridFictionState();
 }
 
-class _GridFictionState extends State<GridFiction> {
+class _GridFictionState extends State<GridFiction> with AutomaticKeepAliveClientMixin{
+  
+   @override
+  bool get wantKeepAlive => true;
   List<FictionItem>? recommendations;
   bool _isLoading = true;
 
@@ -38,6 +41,7 @@ class _GridFictionState extends State<GridFiction> {
 
   @override
   Widget build(BuildContext context) {
+      super.build(context);
     return Container(
         child: Column(
       children: <Widget>[
