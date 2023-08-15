@@ -3,6 +3,7 @@ import 'package:fictionapp/widgets/grid_fiction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
+import '../../util/c.dart';
 import 'home_recommend.dart';
 
 class BookStore extends StatefulWidget {
@@ -27,7 +28,7 @@ class _BookStoreState extends State<BookStore> {
         centerTitle: true,
       ),
       body: SafeArea(
-        minimum: EdgeInsets.all(15),
+        minimum: EdgeInsets.all(C.BOOKSTOREPADDING),
         child: ListView(
           children: [
             Container(
@@ -51,18 +52,21 @@ class _BookStoreState extends State<BookStore> {
               ),
             ),
             Container(child: HomeRecommend()),
+            SizedBox(height: 10.0),
             Container(
                 child: GridFiction(
               name: '男生推荐',
               id: '6',
               bigclass: 'nansheng',
             )),
+            SizedBox(height: 10.0),
             Container(
                 child: GridFiction(
               name: '女生推荐',
               id: '6',
               bigclass: 'nvsheng',
             )),
+            SizedBox(height: 10.0),
             Container(
                 child: GridFiction(
               name: '出版推荐',

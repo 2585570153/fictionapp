@@ -2,6 +2,7 @@ import 'package:fictionapp/widgets/commom_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../entity/recommend_data.dart';
+import '../../util/c.dart';
 
 class HomeRecommend extends StatelessWidget {
   final List<RecommendItem> dataList;
@@ -33,7 +34,7 @@ class HomeRecommend extends StatelessWidget {
                         end: Alignment.bottomRight,
                       ),
                     ),
-                    width: (MediaQuery.of(context).size.width - 40) / 2,
+                    width: (MediaQuery.of(context).size.width - C.BOOKSTOREPADDING2-10) / 2,
                     height: 85.0,
                     child: Row(children: <Widget>[
                       CommonImage(
@@ -58,10 +59,7 @@ class HomeRecommend extends StatelessWidget {
                           Container(
                             //宽度计算：内边距 图片宽度 图片和文字的间距
                             width:
-                                ((MediaQuery.of(context).size.width - 40) / 2) -
-                                    10 -
-                                    50 -
-                                    10,
+                                ((MediaQuery.of(context).size.width - C.BOOKSTOREPADDING2-10) / 2) -10 -50 -10,
                             child: Text(
                               item.Content!,
                               style:
