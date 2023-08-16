@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:fictionapp/entity/fiction.dart';
 import 'package:fictionapp/util/dio_http.dart';
 import 'package:flutter/cupertino.dart';
+
 // 发随机推荐的请求
-Future<List<FictionItem>> getRecommendRandom (
+Future<List<FictionItem>> getRecommendRandom(
     String id, String bigclass, BuildContext context) async {
   final url = '/recommend/random';
   var params = {
@@ -13,12 +14,34 @@ Future<List<FictionItem>> getRecommendRandom (
   };
   var result = await DioHttp.of(context).get(url, params);
   var resMap = json.decode(result.toString());
-  
 
-    List<FictionItem> fictionItemList = (resMap['data'] as List)
+  List<FictionItem> fictionItemList = (resMap['data'] as List)
       .map((item) => FictionItem.fromJson(item))
       .toList();
 
   return fictionItemList;
-  // ...
+}
+
+Future<List<FictionItem>> getFictionList(
+  BuildContext context, {
+  int? page,
+  int? size,
+  String? classify,
+  String? bigclass,
+}) async {
+  final url = '/fiction/list';
+  var params = {
+    'page': page,
+    'size': size,
+    'classify': classify,
+    'bigclass': bigclass,
+  };
+  var result = await DioHttp.of(context).get(url, params);
+  var resMap = json.decode(result.toString());
+
+  List<FictionItem> fictionItemList = (resMap['data'] as List)
+      .map((item) => FictionItem.fromJson(item))
+      .toList();
+
+  return fictionItemList;
 }

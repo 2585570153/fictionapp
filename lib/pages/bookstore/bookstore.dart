@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
 import '../../util/c.dart';
+import '../../widgets/list_fiction.dart';
 import 'home_recommend.dart';
 
 class BookStore extends StatefulWidget {
@@ -30,6 +31,7 @@ class _BookStoreState extends State<BookStore> {
       body: SafeArea(
         minimum: EdgeInsets.all(C.BOOKSTOREPADDING),
         child: ListView(
+          scrollDirection: Axis.vertical,
           children: [
             Container(
               height: 160,
@@ -73,6 +75,63 @@ class _BookStoreState extends State<BookStore> {
               id: '6',
               bigclass: 'chuban',
             )),
+            SizedBox(height: 10.0),
+             Container(
+              padding: EdgeInsets.all(10), // 设置内边距
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 247, 245, 245),
+                borderRadius: BorderRadius.circular(10), // 设置圆角半径
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start, // 设置主轴从上到下排列
+                children: [
+                   SizedBox(height: 5.0),
+            Container(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      children: [
+                        Container(
+                          child: Text(
+                            '猜你喜欢',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 4), // 添加一些间距
+                        Container(
+                          height: 3, // 下划线的高度
+                          width: 60,
+                          color: Colors.blue, // 下划线的颜色
+                        ),
+                      ],
+                    ),
+                    InkWell(
+                      onTap: () {
+                        // 在这里添加点击事件处理逻辑
+                        print("更多被点击了！");
+                        // 你可以在这里执行导航操作、调用函数等
+                      }, // 点击事件处理函数
+                      child: Text(
+                        "更多",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Color.fromARGB(255, 167, 165, 160)),
+                      ),
+                    ),
+                  ]),
+            ),
+                  ListFiction(
+                    classify: '',
+                    bigclass: 'nansheng',
+                    slipevent: true,
+                    padding: 20,
+                  ),
+                ],
+              )),
           ],
         ),
       ),

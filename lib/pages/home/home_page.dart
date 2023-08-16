@@ -1,3 +1,4 @@
+import 'package:fictionapp/pages/classify/classify.dart';
 import 'package:fictionapp/widgets/page_content.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,7 @@ import '../bookstore/bookstore.dart';
 List<Widget> tabVuewList = [
   BookStore(),
   PageContent(name: '书架'),
-  PageContent(name: '分类'),
+  Classify(),
   PageContent(name: '我的'),
 ];
 List<BottomNavigationBarItem> barItemList = [

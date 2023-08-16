@@ -45,11 +45,11 @@ class _GridFictionState extends State<GridFiction>
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
-          padding: EdgeInsets.all(10), // 设置内边距
-         decoration: BoxDecoration(
-            color: Color.fromARGB(255, 247, 245, 245),
-            borderRadius: BorderRadius.circular(10), // 设置圆角半径
-          ),
+        padding: EdgeInsets.all(10), // 设置内边距
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 247, 245, 245),
+          borderRadius: BorderRadius.circular(10), // 设置圆角半径
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start, // 设置主轴从上到下排列
           children: <Widget>[
@@ -58,12 +58,24 @@ class _GridFictionState extends State<GridFiction>
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      widget.name!,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Column(
+                      children: [
+                        Container(
+                          child: Text(
+                            widget.name!,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 4), // 添加一些间距
+                        Container(
+                          height: 3, // 下划线的高度
+                          width: 60,
+                          color: Colors.blue, // 下划线的颜色
+                        ),
+                      ],
                     ),
                     InkWell(
                       onTap: () {
@@ -74,9 +86,8 @@ class _GridFictionState extends State<GridFiction>
                       child: Text(
                         "更多",
                         style: TextStyle(
-                          fontSize: 15,
-                          color: Color.fromARGB(255, 167, 165, 160)
-                        ),
+                            fontSize: 15,
+                            color: Color.fromARGB(255, 167, 165, 160)),
                       ),
                     ),
                   ]),
@@ -84,7 +95,7 @@ class _GridFictionState extends State<GridFiction>
             SizedBox(height: 15.0),
             _isLoading
                 ? Center(
-                    child: CircularProgressIndicator(), // 加载中指示器
+                    child: CircularProgressIndicator(), 
                   )
                 : ShrinkWrappingViewport(
                     offset: ViewportOffset.zero(),
@@ -95,27 +106,40 @@ class _GridFictionState extends State<GridFiction>
                             FictionItem item = recommendations![index];
                             return Container(
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 ClipRRect(
                                   borderRadius:
                                       BorderRadius.circular(10), // 设置图片圆角半径
                                   child: Container(
                                     height:
-                                        ((MediaQuery.of(context).size.width -20 -C.BOOKSTOREPADDING2) /3) *1.4,
-                                    width: (MediaQuery.of(context).size.width -20 -C.BOOKSTOREPADDING2) /3,
+                                        ((MediaQuery.of(context).size.width - 60 -C.BOOKSTOREPADDING2) /3) *1.4,
+                                    width: (MediaQuery.of(context).size.width -
+                                            20 -
+                                            C.BOOKSTOREPADDING2) /
+                                        3,
                                     child: CommonImage(
                                       item.prcture,
                                       fit: BoxFit.fill,
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 12.0),
+                                SizedBox(height: 10.0),
                                 Text(
                                   item.name!,
                                   style: TextStyle(
                                       fontSize: 15,
                                       color:
                                           const Color.fromARGB(255, 1, 1, 1)),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1, // 限制只显示一行
+                                ),
+                                SizedBox(height: 2.0),
+                                Text(
+                                  '${item.click!}人读过',
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      color: Color.fromARGB(255, 245, 172, 15)),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1, // 限制只显示一行
                                 )
