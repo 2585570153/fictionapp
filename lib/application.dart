@@ -1,7 +1,9 @@
 
 import 'package:fictionapp/pages/home/home_page.dart';
+import 'package:fictionapp/util/c.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
 class Application extends StatelessWidget {
@@ -10,6 +12,9 @@ class Application extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor:C.STATUSBAR, // 设置状态栏颜色
+    ));
     return MaterialApp(
       title: 'fiction小说网',
       // // 指定动态路由 

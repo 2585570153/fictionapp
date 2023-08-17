@@ -1,3 +1,4 @@
+import 'package:fictionapp/pages/bookrack/bookrack.dart';
 import 'package:fictionapp/pages/classify/classify.dart';
 import 'package:fictionapp/widgets/page_content.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import '../bookstore/bookstore.dart';
 
 List<Widget> tabVuewList = [
   BookStore(),
-  PageContent(name: '书架'),
+  Bookrack(),
   Classify(),
   PageContent(name: '我的'),
 ];

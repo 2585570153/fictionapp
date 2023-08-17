@@ -5,7 +5,7 @@ import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
 import '../../util/c.dart';
 import '../../widgets/list_fiction.dart';
-import 'home_recommend.dart';
+import 'bookstore_recommend.dart';
 
 class BookStore extends StatefulWidget {
   const BookStore({super.key});
@@ -25,8 +25,27 @@ class _BookStoreState extends State<BookStore> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('书城'),
-        centerTitle: true,
+        title: Text('书城',
+         style: TextStyle(
+            color: Colors.black, // 设置标题颜色为黑色
+            fontSize: 18,
+            fontWeight: FontWeight.bold, // 设置加粗字体
+            decoration:
+                TextDecoration.combine([TextDecoration.underline]), // 添加下划线样式
+            decorationColor: Colors.blue.withOpacity(0.5), // 设置下划线颜色和透明度
+            decorationThickness: 4, // 设置下划线粗细
+          ),),
+       centerTitle: true, // 将标题居中
+        backgroundColor: C.STATUSBAR, // 设置背景颜色为白色
+        elevation: 0, // 取消阴影
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(2.0), // 设置下划线高度
+          child: Container(
+            color: Color.fromARGB(255, 223, 223, 223), // 自定义下划线颜色
+            height: 1.0,
+          ),
+        ),
+
       ),
       body: SafeArea(
         minimum: EdgeInsets.all(C.BOOKSTOREPADDING),
