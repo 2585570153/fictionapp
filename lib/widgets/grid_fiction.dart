@@ -1,6 +1,6 @@
 import 'package:fictionapp/dao/fiction_dao.dart';
 import 'package:fictionapp/entity/fiction.dart';
-import 'package:fictionapp/widgets/commom_image.dart';
+import 'package:fictionapp/util/commom_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 

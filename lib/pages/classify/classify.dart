@@ -1,5 +1,7 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-
+import '../../routes/global.dart';
+import '../../util/app_shared_preferences.dart';
 import '../../util/c.dart';
 import 'classify_list.dart';
 
@@ -11,19 +13,26 @@ class Classify extends StatefulWidget {
 }
 
 class _ClassifyState extends State<Classify> {
-  List<String> tabTitles = [
-    'nansheng',
-    '全部',
-    '玄幻',
-    '都市',
-    '军事',
-    '游戏',
-    '仙侠',
-    '历史',
-    '武侠',
-    '科幻',
-    '悬疑'
-  ]; // 动态的选项卡标题
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  List<String> tabTitles = AppSharedPreferences.getStringList('classify_list',
+      defaultValue: [
+        'nansheng',
+        '全部',
+        '玄幻',
+        '都市',
+        '军事',
+        '游戏',
+        '仙侠',
+        '历史',
+        '武侠',
+        '科幻',
+        '悬疑'
+      ]);
+
   List<String> nanshengtabTitles = [
     'nansheng',
     '全部',
@@ -93,17 +102,38 @@ class _ClassifyState extends State<Classify> {
                 onSelected: (value) {
                   if (value == 'nvsheng') {
                     setState(() {
-                      tabTitles = nvshengtabTitles;
+                      AppSharedPreferences.setStringList(
+                          'classify_list', nvshengtabTitles);
+                      Global.router.navigateTo(
+                        context,
+                        "/chassify",
+                         clearStack: true,
+                        transition: TransitionType.fadeIn,
+                      ); // 按钮点击逻辑
                     });
                   }
                   if (value == 'nansheng') {
                     setState(() {
-                      tabTitles = nanshengtabTitles;
+                      AppSharedPreferences.setStringList(
+                          'classify_list', nanshengtabTitles);
+                      Global.router.navigateTo(
+                        context,
+                        "/chassify",
+                        clearStack: true,
+                        transition: TransitionType.fadeIn,
+                      ); // 按钮点击逻辑
                     });
                   }
                   if (value == 'chuban') {
                     setState(() {
-                      tabTitles = chubantabTitles;
+                      AppSharedPreferences.setStringList(
+                          'classify_list', chubantabTitles);
+                      Global.router.navigateTo(
+                        context,
+                        "/chassify",
+                        clearStack: true,
+                        transition: TransitionType.fadeIn,
+                      ); // 按钮点击逻辑
                     });
                   }
                 },

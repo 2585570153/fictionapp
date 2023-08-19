@@ -31,7 +31,9 @@ List<BottomNavigationBarItem> barItemList = [
 ];
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final int defaultIndex;
+
+  const HomePage({super.key, this.defaultIndex = 0});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -39,6 +41,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  int temp = 99;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -48,6 +51,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    
+    if (temp == 99) {
+      _selectedIndex = widget.defaultIndex;
+      temp++;
+    }
+
     return Scaffold(
       // 跳转页面
       body: tabVuewList[_selectedIndex],

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../dao/fiction_dao.dart';
 import '../util/c.dart';
-import 'commom_image.dart';
+import '../util/commom_image.dart';
 
 // ignore: must_be_immutable
 class ListFiction extends StatefulWidget {
