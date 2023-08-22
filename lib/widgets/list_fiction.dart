@@ -2,6 +2,7 @@ import 'package:fictionapp/entity/fiction.dart';
 import 'package:flutter/material.dart';
 
 import '../dao/fiction_dao.dart';
+import '../routes/global.dart';
 import '../util/c.dart';
 import '../util/commom_image.dart';
 
@@ -21,7 +22,7 @@ class ListFiction extends StatefulWidget {
       this.size = 5,
       this.classify,
       this.slipevent = false,
-      this.padding=0.0});
+      this.padding = 0.0});
 
   @override
   State<ListFiction> createState() => _ListFictionState();
@@ -59,95 +60,105 @@ class _ListFictionState extends State<ListFiction>
                 height: 100,
                 padding: EdgeInsets.all(5), // 设置内边距为5
 
-                child: Row(children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromARGB(255, 0, 0, 0)
-                              .withOpacity(0.05), // 阴影颜色和透明度
-                          spreadRadius: 1, // 阴影扩散半径
-                          blurRadius: 1, // 阴影模糊半径
-                          offset: Offset(0, 3), // 阴影偏移量
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5), // 设置图片圆角半径
-                      child: Container(
-                        height: 100,
-                        width: 100 / 1.45,
-                        child: CommonImage(
-                          item.prcture,
-                          fit: BoxFit.fill,
+                child: GestureDetector(
+                  onTap: () {
+                    Global.router
+                        .navigateTo(context, "/read/${item.fictionId}");
+                    // 在这里添加您的跳转逻辑，比如导航到另一个页面
+                  },
+                  child: Row(children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromARGB(255, 0, 0, 0)
+                                .withOpacity(0.05), // 阴影颜色和透明度
+                            spreadRadius: 1, // 阴影扩散半径
+                            blurRadius: 1, // 阴影模糊半径
+                            offset: Offset(0, 3), // 阴影偏移量
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5), // 设置图片圆角半径
+                        child: Container(
+                          height: 100,
+                          width: 100 / 1.45,
+                          child: CommonImage(
+                            item.prcture,
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width -
-                        C.BOOKSTOREPADDING2 -
-                        (100 / 1.45) -
-                        (5 * 2) -
-                        10-widget.padding!,
-                    //-图片宽度-内边距-图片和文本之间的距离-参数传的距离
-                    child: Column(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween, // 主轴两边
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start, // 次轴从左向右排列
-                        children: [
-                          Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween, // 主轴两边分布
-                              children: [
-                                Container(
-                                  width: 200-widget.padding!, // 设置容器的宽度
-                                  child: Text(
-                                    item.name!,
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      color: const Color.fromARGB(255, 1, 1, 1),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width -
+                          C.BOOKSTOREPADDING2 -
+                          (100 / 1.45) -
+                          (5 * 2) -
+                          10 -
+                          widget.padding!,
+                      //-图片宽度-内边距-图片和文本之间的距离-参数传的距离
+                      child: Column(
+                          mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween, // 主轴两边
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start, // 次轴从左向右排列
+                          children: [
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween, // 主轴两边分布
+                                children: [
+                                  Container(
+                                    width: 200 - widget.padding!, // 设置容器的宽度
+                                    child: Text(
+                                      item.name!,
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        color:
+                                            const Color.fromARGB(255, 1, 1, 1),
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
                                   ),
-                                ),
-                                Text(
-                                  '${item.click}' + '读过   ',
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      color: Color.fromARGB(255, 245, 172, 15)),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1, // 限制只显示一行
-                                ),
-                              ]),
-                          Text(
-                            item.brief!,
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Color.fromARGB(255, 119, 117, 117),
-                              // fontWeight: FontWeight.bold, // 设置字体加粗
+                                  Text(
+                                    '${item.click}' + '读过   ',
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        color:
+                                            Color.fromARGB(255, 245, 172, 15)),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1, // 限制只显示一行
+                                  ),
+                                ]),
+                            Text(
+                              item.brief!,
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Color.fromARGB(255, 119, 117, 117),
+                                // fontWeight: FontWeight.bold, // 设置字体加粗
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3, // 限制只显示一
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 3, // 限制只显示一
-                          ),
-                          Text(
-                            item.author! + '·' + item.classify!,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Color.fromARGB(255, 84, 83, 83),
-                              // fontWeight: FontWeight.bold, // 设置字体加粗
+                            Text(
+                              item.author! + '·' + item.classify!,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Color.fromARGB(255, 84, 83, 83),
+                                // fontWeight: FontWeight.bold, // 设置字体加粗
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2, // 限制只显示一
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2, // 限制只显示一
-                          ),
-                        ]),
-                  ),
-                ]),
+                          ]),
+                    ),
+                  ]),
+                ),
               ),
               SizedBox(
                 height: 10,

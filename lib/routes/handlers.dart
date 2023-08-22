@@ -1,10 +1,9 @@
+import 'package:fictionapp/pages/read/read_page.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 // 页面
 import 'package:fictionapp/pages/home/home_page.dart';
 import 'package:fictionapp/pages/login/login_page.dart';
-
-import '../pages/classify/classify.dart';
 import '../pages/login/register_page.dart';
 
 // 登录页
@@ -27,3 +26,8 @@ var ChassifyHandler = Handler(
   handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
     return const HomePage(defaultIndex: 2,);
   });
+var ReadHandler = Handler(
+  handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+     String userId = params['id']?.first ?? ''; // 'id' 对应于路径中的 :id
+    return  ReadPage(id: userId,);
+  });  

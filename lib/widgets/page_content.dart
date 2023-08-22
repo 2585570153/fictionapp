@@ -11,9 +11,19 @@ class PageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Center(child: Text("$name"))),
-      body: Center(
-          child: MyButton(), // 在这里添加按钮组件
-        ),
+      body: Column(
+        children: [
+          Center(
+              child: MyButton(), // 在这里添加按钮组件
+            ),
+          ElevatedButton(
+      onPressed: () {
+          Global.router.navigateTo(context, "/read/2");
+        },
+      child: Text("阅读页"),
+    ),  
+        ],
+      ),
     );
   }
 }
