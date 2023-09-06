@@ -1,9 +1,11 @@
 import 'package:fictionapp/dao/fiction_dao.dart';
 import 'package:fictionapp/entity/fiction.dart';
-import 'package:fictionapp/util/commom_image.dart';
+import 'package:fictionapp/util/common_image.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../routes/global.dart';
 import '../util/c.dart';
 
 class GridFiction extends StatefulWidget {
@@ -95,7 +97,7 @@ class _GridFictionState extends State<GridFiction>
             SizedBox(height: 15.0),
             _isLoading
                 ? Center(
-                    child: CircularProgressIndicator(), 
+                    child: CircularProgressIndicator(),
                   )
                 : ShrinkWrappingViewport(
                     offset: ViewportOffset.zero(),
@@ -104,47 +106,63 @@ class _GridFictionState extends State<GridFiction>
                         delegate: SliverChildBuilderDelegate(
                           (BuildContext context, int index) {
                             FictionItem item = recommendations![index];
-                            return Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(10), // 设置图片圆角半径
-                                  child: Container(
-                                    height:
-                                        ((MediaQuery.of(context).size.width - 60 -C.BOOKSTOREPADDING2) /3) *1.4,
-                                    width: (MediaQuery.of(context).size.width -
-                                            20 -
-                                            C.BOOKSTOREPADDING2) /
-                                        3,
-                                    child: CommonImage(
-                                      item.prcture,
-                                      fit: BoxFit.fill,
+                            return GestureDetector(
+                              onTap: () {
+                                Global.router.navigateTo(
+                                  context,
+                                  "/read/${item.fictionId}",
+                                  transition: TransitionType.inFromRight,
+                                );
+                                // 在这里添加您的跳转逻辑，比如导航到另一个页面
+                              },
+                              child: Container(
+                                  child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.circular(10), // 设置图片圆角半径
+                                    child: Container(
+                                      height:
+                                          ((MediaQuery.of(context).size.width -
+                                                      60 -
+                                                      C.BOOKSTOREPADDING2) /
+                                                  3) *
+                                              1.4,
+                                      width:
+                                          (MediaQuery.of(context).size.width -
+                                                  20 -
+                                                  C.BOOKSTOREPADDING2) /
+                                              3,
+                                      child: CommonImage(
+                                        item.prcture,
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 10.0),
-                                Text(
-                                  item.name!,
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color:
-                                          const Color.fromARGB(255, 1, 1, 1)),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1, // 限制只显示一行
-                                ),
-                                SizedBox(height: 2.0),
-                                Text(
-                                  '${item.click!}人读过',
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      color: Color.fromARGB(255, 245, 172, 15)),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1, // 限制只显示一行
-                                )
-                              ],
-                            ));
+                                  SizedBox(height: 10.0),
+                                  Text(
+                                    item.name!,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color:
+                                            const Color.fromARGB(255, 1, 1, 1)),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1, // 限制只显示一行
+                                  ),
+                                  SizedBox(height: 2.0),
+                                  Text(
+                                    '${item.click!}人读过',
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        color:
+                                            Color.fromARGB(255, 245, 172, 15)),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1, // 限制只显示一行
+                                  )
+                                ],
+                              )),
+                            );
                           },
                           childCount: 6, // 3 列 * 2 行 = 6 个项目
                         ),

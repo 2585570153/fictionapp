@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../routes/global.dart';
 import '../../util/c.dart';
-import '../../util/commom_image.dart';
+import '../../util/common_image.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

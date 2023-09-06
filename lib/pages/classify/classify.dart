@@ -75,7 +75,7 @@ class _ClassifyState extends State<Classify> {
                 IconButton(
                   icon: Icon(
                     Icons.search,
-                    color: Colors.grey,
+                    color: C.ICOCOLOR,
                   ),
                   onPressed: () {
                     // 处理搜索按钮点击事件
@@ -96,8 +96,8 @@ class _ClassifyState extends State<Classify> {
               ),
               leading: PopupMenuButton<String>(
                 icon: Icon(
-                  Icons.menu,
-                  color: Colors.grey,
+                  Icons.expand_more,
+                  color: C.ICOCOLOR,
                 ),
                 onSelected: (value) {
                   if (value == 'nvsheng') {

@@ -1,4 +1,4 @@
-import 'package:fictionapp/util/commom_image.dart';
+import 'package:fictionapp/util/common_image.dart';
 import 'package:fictionapp/widgets/grid_fiction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';

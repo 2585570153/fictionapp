@@ -1,4 +1,4 @@
-import 'package:fictionapp/util/commom_image.dart';
+import 'package:fictionapp/util/common_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../entity/recommend_data.dart';

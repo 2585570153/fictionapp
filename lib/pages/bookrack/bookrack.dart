@@ -19,7 +19,7 @@ class _BookrackState extends State<Bookrack> {
           IconButton(
             icon: Icon(
               Icons.search,
-              color: Colors.grey,
+              color: C.ICOCOLOR,
             ),
             onPressed: () {
               // 处理搜索按钮点击事件
@@ -42,7 +42,7 @@ class _BookrackState extends State<Bookrack> {
         leading: PopupMenuButton<String>(
           icon: Icon(
             Icons.menu,
-            color: Colors.grey,
+            color: C.ICOCOLOR,
           ),
           onSelected: (value) {
             // 处理选择器选择事件

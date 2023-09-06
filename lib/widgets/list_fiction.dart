@@ -1,10 +1,11 @@
 import 'package:fictionapp/entity/fiction.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
 import '../dao/fiction_dao.dart';
 import '../routes/global.dart';
 import '../util/c.dart';
-import '../util/commom_image.dart';
+import '../util/common_image.dart';
 
 // ignore: must_be_immutable
 class ListFiction extends StatefulWidget {
@@ -63,7 +64,7 @@ class _ListFictionState extends State<ListFiction>
                 child: GestureDetector(
                   onTap: () {
                     Global.router
-                        .navigateTo(context, "/read/${item.fictionId}");
+                        .navigateTo(context, "/read/${item.fictionId}",transition: TransitionType.inFromRight,);
                     // 在这里添加您的跳转逻辑，比如导航到另一个页面
                   },
                   child: Row(children: <Widget>[
