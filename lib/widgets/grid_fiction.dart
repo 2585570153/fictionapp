@@ -49,7 +49,7 @@ class _GridFictionState extends State<GridFiction>
     return Container(
         padding: EdgeInsets.all(10), // 设置内边距
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 247, 245, 245),
+          color: C.STATUSBAR,
           borderRadius: BorderRadius.circular(10), // 设置圆角半径
         ),
         child: Column(

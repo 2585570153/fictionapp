@@ -156,7 +156,6 @@ class _ClassifyState extends State<Classify> {
               centerTitle: true, // 将标题居中
               backgroundColor: C.STATUSBAR, // 设置背景颜色为白色
               elevation: 0, // 取消阴影
-
               bottom: TabBar(
                 isScrollable: true, // 允许选项卡横向滚动
                 indicator: UnderlineTabIndicator(
