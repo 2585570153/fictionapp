@@ -21,7 +21,14 @@ class ReadPage extends StatefulWidget {
 }
 
 class _ReadPageState extends State<ReadPage> {
-  
+  bool _isExpanded = false;
+
+  void _toggleExpansion() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+    });
+  }
+
   // 在构造函数中接收 id 参数
   final ReadController controller = Get.put(ReadController());
   @override
@@ -39,7 +46,7 @@ class _ReadPageState extends State<ReadPage> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-               Container(
+                Container(
                   height: 100.0, // 设置抽屉头部的高度为150.0
                   child: Center(
                     child: Text(
@@ -70,6 +77,7 @@ class _ReadPageState extends State<ReadPage> {
         ),
         body: CustomScrollView(
           slivers: <Widget>[
+            //导航
             SliverAppBar(
               expandedHeight: 210, // 导航栏展开时的高度
               floating: true, // 设置为false，初始状态下标题不会显示
@@ -78,9 +86,7 @@ class _ReadPageState extends State<ReadPage> {
               centerTitle: true, // 让标题居中显示
               leading: IconButton(
                 icon: Icon(Icons.arrow_back), // 返回箭头图标
-                onPressed: () {
-                  
-                },
+                onPressed: () {},
               ),
               flexibleSpace: FlexibleSpaceBar(
                 background: Stack(
@@ -188,33 +194,200 @@ class _ReadPageState extends State<ReadPage> {
                 ),
               ),
             ),
+            //收藏
+            SliverToBoxAdapter(
+              child: Container(
+                padding: EdgeInsets.only(top: 15.0), // 仅设置上边距
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    SizedBox(width: 8.0), // 添加间距
+                    Text(
+                      '5000',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '人读过',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    SizedBox(width: 10.0), // 添加间距
+                    Container(
+                      width: 1.0,
+                      height: 20.0,
+                      color: Colors.grey, // 淡灰色线
+                    ),
+                    SizedBox(width: 10.0), // 添加间距
+                    Text(
+                      '300',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '人收藏',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    SizedBox(width: 8.0), // 添加间距
+                  ],
+                ),
+              ),
+            ),
+            //介绍
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: 15.0, left: 15.0, right: 15.0), // 仅设置上边距
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 0.2,
+                      color: const Color.fromARGB(255, 228, 225, 225), // 淡灰色线
+                    ),
+                    SizedBox(height: 8.0),
+                    _isExpanded
+                        ? Text(
+                            '这是一本非常精彩的小说的详细介绍。在这本小说中，故事情节扣人心弦，角色生动有趣，一定会让你沉浸其中，无法自拔。',
+                            style: TextStyle(
+                              fontSize: 16,
+                              height: 1.5,
+                            ),
+                          )
+                        : Text(
+                            '这是一本非常精彩的小说的详细介绍。在这本小说中，故事情节扣人心弦，角色生动有趣，一定会让你沉浸其中，无法自拔。咱开',
+                            style: TextStyle(
+                              fontSize: 16,
+                              height: 1.5,
+                            ),
+                            maxLines: 3, // 设置最大行数为3
+                            overflow: TextOverflow.ellipsis, // 超出部分使用省略号
+                          ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end, // 将按钮置于右侧
+                      children: [
+                        TextButton(
+                          onPressed: _toggleExpansion,
+                          child: Text(_isExpanded ? '收回' : '展开',
+                              style: TextStyle(fontSize: 16)), // 设置按钮文本样式
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            //目录
             SliverToBoxAdapter(
               child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 100,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 0.2,
+                    color: const Color.fromARGB(255, 228, 225, 225), // 淡灰色线
                   ),
-                 Builder(
-          builder: (context) => Center(
-            child: ElevatedButton(
-              child: Text('呼出左侧侧边栏'),
-              onPressed: () => Scaffold.of(context).openDrawer(),
-            ),
-          ),
-        ),
-                  Text('组件 1'),
+                  Builder(builder: (context) {
+                    return InkWell(
+                      onTap: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            top: 15.0, left: 20.0, right: 20.0), // 设置上边距和水平边距
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              '目录',
+                              style: TextStyle(
+                                color: Colors.black, // 设置标题颜色为黑色
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold, // 设置加粗字体
+                                decoration: TextDecoration.combine(
+                                    [TextDecoration.underline]), // 添加下划线样式
+                                decorationColor:
+                                    Colors.blue.withOpacity(0.5), // 设置下划线颜色和透明度
+                                decorationThickness: 4, // 设置下划线粗细
+                              ),
+                            ),
+                            Icon(
+                              Icons.chevron_right,
+                              size: 20.0,
+                              color: const Color.fromARGB(255, 192, 190, 190),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
                   SizedBox(
-                    height: 100,
-                  ),
-                  Text('组件 2'),
-                  SizedBox(
-                    height: 150,
-                  ),
-                  Text('组件 3'),
-                  // 添加更多组件...
+                    height: 15,
+                  )
                 ],
               ),
             ),
+            //书评
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 0.2,
+                    color: const Color.fromARGB(255, 228, 225, 225), // 淡灰色线
+                  ),
+                  InkWell(
+                    onTap: () {
+                      // 处理点击事件，可以在此处添加导航逻辑或其他操作
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          top: 15.0, left: 20.0, right: 20.0), // 设置上边距和水平边距
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            '书评',
+                            style: TextStyle(
+                              color: Colors.black, // 设置标题颜色为黑色
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold, // 设置加粗字体
+                              decoration: TextDecoration.combine(
+                                  [TextDecoration.underline]), // 添加下划线样式
+                              decorationColor:
+                                  Colors.blue.withOpacity(0.5), // 设置下划线颜色和透明度
+                              decorationThickness: 4, // 设置下划线粗细
+                            ),
+                          ),
+                          Icon(
+                            Icons.chevron_right,
+                            size: 20.0,
+                            color: const Color.fromARGB(255, 192, 190, 190),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    width: 320,
+                    height: 0.2,
+                    color: Color.fromARGB(255, 176, 172, 172), // 淡灰色线
+                  ),
+                ],
+              ),
+            ),
+
+            //更多喜欢
             SliverToBoxAdapter(
               child: Container(
                   padding: EdgeInsets.all(10.0), // 添加内边距
