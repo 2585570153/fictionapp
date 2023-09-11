@@ -52,6 +52,11 @@ class FictionItem {
       this._creatTime = creatTime;
     }
   }
+  
+  bool isEmpty() {
+  return (_name == null || _name!.isEmpty) &&
+         (_author == null || _author!.isEmpty);
+}
 
   int? get fictionId => _fictionId;
   set fictionId(int? fictionId) => _fictionId = fictionId;
@@ -101,4 +106,5 @@ class FictionItem {
     data['creatTime'] = this._creatTime;
     return data;
   }
+
 }

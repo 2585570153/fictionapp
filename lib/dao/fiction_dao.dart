@@ -21,7 +21,7 @@ Future<List<FictionItem>> getRecommendRandom(
 
   return fictionItemList;
 }
-
+// 发查询全部书籍请求
 Future<List<FictionItem>> getFictionList(
   BuildContext context, {
   int? page,
@@ -44,4 +44,19 @@ Future<List<FictionItem>> getFictionList(
       .toList();
 
   return fictionItemList;
+}
+
+//根据id查询书籍
+Future<FictionItem> getFictionId(
+  BuildContext context, {
+  String? id,
+}) async {
+  final url = '/fiction/fictionid';
+  var params = {
+    'id': id,
+  };
+  var result = await DioHttp.of(context).get(url, params);
+  var resMap = json.decode(result.toString());
+  FictionItem fictionItem = FictionItem.fromJson(resMap['data']);
+  return fictionItem;
 }
