@@ -8,6 +8,7 @@ class Routes {
   static String register = "/register";
   static String chassify = "/chassify";
   static String read = "/read/:id";
+  static String novel = "/novel/:id";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(
@@ -23,7 +24,9 @@ class Routes {
     router.define(register, handler: RegisterHandler);
     //分类
     router.define(chassify, handler: ChassifyHandler);
-    
+    //书籍详细页
     router.define(read, handler: ReadHandler);
+
+    router.define(novel, handler: NovelHandler);
   }
 }

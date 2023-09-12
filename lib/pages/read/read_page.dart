@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:fictionapp/pages/read/read_bottom_bar.dart';
 import 'package:fictionapp/pages/read/read_controller.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,6 +12,7 @@ import '../../dao/chapter_dao.dart';
 import '../../dao/fiction_dao.dart';
 import '../../entity/chapter.dart';
 import '../../entity/fiction.dart';
+import '../../routes/global.dart';
 import '../../util/c.dart';
 import '../../util/common_image.dart';
 import '../../widgets/grid_fiction.dart';
@@ -83,7 +85,9 @@ class _ReadPageState extends State<ReadPage> {
                               ),
                               ListTile(
                                 title: Text('${item.title}'),
-                                onTap: () {},
+                                onTap: () {
+                                  Global.router.navigateTo(context,"/novel/${item.chapterId}",transition: TransitionType.inFromRight,);
+                                },
                               ),
                             ],
                           );
@@ -91,7 +95,9 @@ class _ReadPageState extends State<ReadPage> {
 
                         return ListTile(
                           title: Text('${item.title}'),
-                          onTap: () {},
+                          onTap: () {
+                            Global.router.navigateTo(context,"/novel/${item.chapterId}",transition: TransitionType.inFromRight,);
+                          },
                         );
                       },
                     ),

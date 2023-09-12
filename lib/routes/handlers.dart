@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fictionapp/pages/home/home_page.dart';
 import 'package:fictionapp/pages/login/login_page.dart';
 import '../pages/login/register_page.dart';
+import '../pages/novel/novel_reader_page.dart';
 
 // 登录页
 var loginHandler = Handler(
@@ -28,6 +29,11 @@ var ChassifyHandler = Handler(
   });
 var ReadHandler = Handler(
   handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-     String userId = params['id']?.first ?? ''; // 'id' 对应于路径中的 :id
-    return  ReadPage(id: userId,);
+     String fictionId = params['id']?.first ?? ''; // 'id' 对应于路径中的 :id
+    return  ReadPage(id: fictionId,);
+  });  
+  var NovelHandler = Handler(
+  handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+     String chapterId = params['id']?.first ?? ''; // 'id' 对应于路径中的 :id
+    return  NovelReaderPage(id: chapterId,);
   });  

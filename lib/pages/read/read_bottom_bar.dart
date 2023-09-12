@@ -1,4 +1,7 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+
+import '../../routes/global.dart';
 
 class ReadBottomBar extends StatefulWidget {
   const ReadBottomBar({Key? key}) : super(key: key);
@@ -24,7 +27,6 @@ class _ReadBottomBarState extends State<ReadBottomBar> {
                 '加入书架',
                 style: TextStyle(
                   color: Colors.blue,
-
                 ),
               ),
             ),
@@ -33,9 +35,14 @@ class _ReadBottomBarState extends State<ReadBottomBar> {
             width: 130,
             color: Colors.blue,
             child: Expanded(
-              
               child: TextButton(
                 onPressed: () {
+                  Global.router.navigateTo(
+                    context,
+                    "/novel/100011",
+                    transition: TransitionType.inFromRight,
+                  );
+                  // 在这里添加您的跳转逻辑，比如导航到另一个页面
                   // 处理导航项点击事件
                   // 您可以根据需要执行操作
                 },
@@ -43,7 +50,6 @@ class _ReadBottomBarState extends State<ReadBottomBar> {
                   '免费阅读',
                   style: TextStyle(
                     color: const Color.fromARGB(255, 252, 252, 253),
-
                   ),
                 ),
               ),
@@ -59,7 +65,6 @@ class _ReadBottomBarState extends State<ReadBottomBar> {
                 '缓存',
                 style: TextStyle(
                   color: Colors.blue,
-
                 ),
               ),
             ),
