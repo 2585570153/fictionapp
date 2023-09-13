@@ -39,7 +39,7 @@ class _ReadBottomBarState extends State<ReadBottomBar> {
                 onPressed: () {
                   Global.router.navigateTo(
                     context,
-                    "/novel/100011",
+                    "/novel/330003",
                     transition: TransitionType.inFromRight,
                   );
                   // 在这里添加您的跳转逻辑，比如导航到另一个页面

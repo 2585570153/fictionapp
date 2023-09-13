@@ -37,6 +37,7 @@ class _ReadPageState extends State<ReadPage> {
 
   // 在构造函数中接收 id 参数
   final ReadController controller = Get.put(ReadController());
+  
   final ScrollController _controller = ScrollController(); //显示滚轮
   FictionItem items = FictionItem(); // 存储小说数据的对象
   List<ChapterItem> chapterList = [];
@@ -474,11 +475,10 @@ class _ReadPageState extends State<ReadPage> {
       items = fictionItem;
     });
   }
-
+  //章节内容
   Future<void> _loadChapterList() async {
     List<ChapterItem> fictionChapterList =
         await getFictionChapter(context, id: widget.id);
-
     setState(() {
       chapterList = fictionChapterList;
     });

@@ -1,9 +1,9 @@
 class ChapterItem {
   int? chapterId;
   String? title;
-  Null? fictionId;
+  int? fictionId;
   String? updataTime;
-  Null? content;
+  String? content;
 
   ChapterItem(
       {this.chapterId,
