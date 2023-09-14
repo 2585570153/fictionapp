@@ -34,6 +34,7 @@ var ReadHandler = Handler(
   });  
   var NovelHandler = Handler(
   handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-     String chapterId = params['id']?.first ?? ''; // 'id' 对应于路径中的 :id
-    return  NovelReaderPage(id: chapterId,);
+     String chapterId = params['chapterId']?.first ?? ''; // 'id' 对应于路径中的 :id
+     String fictionId = params['fictionId']?.first ?? '';
+    return  NovelReaderPage(chapterId: chapterId,fictionId:fictionId);
   });  

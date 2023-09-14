@@ -8,7 +8,7 @@ class Routes {
   static String register = "/register";
   static String chassify = "/chassify";
   static String read = "/read/:id";
-  static String novel = "/novel/:id";
+  static String novel = "/novel/:chapterId/:fictionId";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(

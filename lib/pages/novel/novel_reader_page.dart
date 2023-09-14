@@ -1,29 +1,97 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
 import '../../dao/chapter_dao.dart';
 import '../../entity/chapter.dart';
+import '../../routes/global.dart';
 
+// ignore: must_be_immutable
 class NovelReaderPage extends StatefulWidget {
-  String? id;
+  String? chapterId;
+  String? fictionId;
 
-  NovelReaderPage({Key? key, this.id}) : super(key: key);
+  NovelReaderPage({Key? key, this.chapterId, this.fictionId}) : super(key: key);
 
   @override
   _NovelReaderPageState createState() => _NovelReaderPageState();
 }
 
 class _NovelReaderPageState extends State<NovelReaderPage> {
+  final ScrollController _controller = ScrollController(); //显示滚轮
   ChapterItem items = ChapterItem(); // 存储小说文本的内容
   bool isStackVisible = false;
+  List<ChapterItem> chapterList = [];
   @override
   void initState() {
     super.initState();
     _getContenttxt();
+    _loadChapterList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: chapterList.length == 0 //判断异步加载是否完成
+          ? Center(
+              child: CircularProgressIndicator(), // 如果 items 为空，显示加载指示器
+            )
+          : Drawer(
+              child: Container(
+                color: Colors.white, // 设置背景颜色为米白色
+
+                child: Scrollbar(
+                  controller: _controller,
+                  thickness: 8.0, // 设置Scrollbar的宽度
+                  radius: Radius.circular(4.0), // 设置Scrollbar的圆角半径
+                  child: ListView.builder(
+                    itemCount: chapterList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      ChapterItem item = chapterList[index];
+                      if (index == 0) {
+                        // 第一个item作为标题
+                        return Column(
+                          children: [
+                            Container(
+                              height: 100.0,
+                              child: Center(
+                                child: Text(
+                                  '目录',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 12, 12, 12),
+                                    fontSize: 24.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              title: Text('${item.title}'),
+                              onTap: () {
+                                Global.router.navigateTo(
+                                  context,
+                                  "/novel/${item.chapterId}/${item.fictionId}",
+                                  transition: TransitionType.inFromRight,
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      }
+
+                      return ListTile(
+                        title: Text('${item.title}'),
+                        onTap: () {
+                          Global.router.navigateTo(
+                            context,
+                            "/novel/${item.chapterId}/${item.fictionId}",
+                            transition: TransitionType.inFromRight,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
       body: items.content == null //判断异步加载是否完成
           ? Center(
               child: CircularProgressIndicator(), // 如果 items 为空，显示加载指示器
@@ -41,7 +109,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                   child: SingleChildScrollView(
                     // 使用SingleChildScrollView允许文本超出屏幕高度时可以滚动
                     child: Text(
-                      textAlign: TextAlign.justify,
+                      textAlign: TextAlign.left,
                       "${items.content}",
                       style: TextStyle(
                         fontSize: 20.0,
@@ -292,9 +360,18 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
 
   //发送章节内存
   Future<void> _getContenttxt() async {
-    ChapterItem contenttxt = await getContenttxt(context, id: widget.id);
+    ChapterItem contenttxt = await getContenttxt(context, id: widget.chapterId);
     setState(() {
       items = contenttxt;
+    });
+  }
+
+  //章节内容
+  Future<void> _loadChapterList() async {
+    List<ChapterItem> fictionChapterList =
+        await getFictionChapter(context, id: widget.fictionId);
+    setState(() {
+      chapterList = fictionChapterList;
     });
   }
 }
