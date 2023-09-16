@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
 
 class ReadController extends GetxController {
-  final count = 0.obs;
+  var chapterId = ''.obs; // 使用.obs将变量变成响应式
+  var fictionId = ''.obs;
 
   @override
   void onInit() {
@@ -14,8 +15,8 @@ class ReadController extends GetxController {
   @override
   void onClose() {}
 
-  void increase() {
-    count.value++;
-    update();
+  void updateValues(String chapterId, String fictionId) {
+    chapterId = chapterId; // 更新值1
+    fictionId = fictionId; // 更新值2
   }
 }

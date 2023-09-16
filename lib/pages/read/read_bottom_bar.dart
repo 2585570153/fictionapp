@@ -1,10 +1,13 @@
+import 'package:fictionapp/entity/chapter.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
 import '../../routes/global.dart';
 
 class ReadBottomBar extends StatefulWidget {
-  const ReadBottomBar({Key? key}) : super(key: key);
+  ChapterItem? chapterList;
+
+  ReadBottomBar(this.chapterList, {Key? key}) : super(key: key);
 
   @override
   State<ReadBottomBar> createState() => _ReadBottomBarState();
@@ -39,7 +42,7 @@ class _ReadBottomBarState extends State<ReadBottomBar> {
                 onPressed: () {
                   Global.router.navigateTo(
                     context,
-                    "/novel/330003",
+                    "/novel/${widget.chapterList?.chapterId}/${widget.chapterList?.fictionId}",
                     transition: TransitionType.inFromRight,
                   );
                   // 在这里添加您的跳转逻辑，比如导航到另一个页面

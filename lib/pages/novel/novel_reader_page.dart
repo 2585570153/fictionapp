@@ -20,6 +20,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
   final ScrollController _controller = ScrollController(); //显示滚轮
   ChapterItem items = ChapterItem(); // 存储小说文本的内容
   bool isStackVisible = false;
+  bool isSettingStack = false;
   List<ChapterItem> chapterList = [];
   @override
   void initState() {
@@ -69,7 +70,8 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                 Global.router.navigateTo(
                                   context,
                                   "/novel/${item.chapterId}/${item.fictionId}",
-                                  transition: TransitionType.inFromRight,
+                                  replace: true, // 设置replace为true来替换前一个页面
+                                  transition: TransitionType.fadeIn,
                                 );
                               },
                             ),
@@ -83,7 +85,8 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                           Global.router.navigateTo(
                             context,
                             "/novel/${item.chapterId}/${item.fictionId}",
-                            transition: TransitionType.inFromRight,
+                            replace: true, // 设置replace为true来替换前一个页面
+                            transition: TransitionType.fadeIn,
                           );
                         },
                       );
@@ -99,6 +102,9 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
           : GestureDetector(
               onTap: () {
                 setState(() {
+                  if (isSettingStack) {
+                    isSettingStack = !isSettingStack;
+                  }
                   isStackVisible = !isStackVisible;
                 });
               },
@@ -213,8 +219,12 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                 height: 20,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
+                                  SizedBox(
+                                    width: 10,
+                                  ),
                                   Text(
                                     '上一章',
                                     style: TextStyle(
@@ -247,30 +257,44 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                             Color.fromARGB(255, 207, 207, 207),
                                         fontSize: 14),
                                   ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
                                 ],
                               ),
                               SizedBox(
                                 height: 12,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Column(
-                                    children: [
-                                      Icon(Icons.menu,
-                                          color: Color.fromARGB(
-                                              255, 207, 207, 207)),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        '目录',
-                                        style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 207, 207, 207)),
-                                      ),
-                                    ],
+                                  SizedBox(
+                                    width: 10,
                                   ),
+                                  Builder(builder: (context) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Scaffold.of(context).openDrawer();
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Icon(Icons.menu,
+                                              color: Color.fromARGB(
+                                                  255, 207, 207, 207)),
+                                          SizedBox(
+                                            height: 8,
+                                          ),
+                                          Text(
+                                            '目录',
+                                            style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 207, 207, 207)),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
                                   SizedBox(
                                     width: 40,
                                   ),
@@ -331,23 +355,138 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   SizedBox(
                                     width: 40,
                                   ),
-                                  Column(
-                                    children: [
-                                      Icon(Icons.settings,
-                                          color: Color.fromARGB(
-                                              255, 207, 207, 207)),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        '设置',
-                                        style: TextStyle(
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        isSettingStack = !isSettingStack;
+                                      });
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Icon(Icons.settings,
                                             color: Color.fromARGB(
                                                 255, 207, 207, 207)),
-                                      ),
-                                    ],
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          '设置',
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 207, 207, 207)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
                                   ),
                                 ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      )),
+                //设置状态栏
+                if (isSettingStack)
+                  Positioned(
+                      top: null,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          height: 170, // 保持高度为150像素
+                          color: const Color.fromARGB(240, 33, 31, 31),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    '字体',
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 207, 207, 207),
+                                        fontSize: 14),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    '间距',
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 207, 207, 207),
+                                        fontSize: 14),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    '背景',
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 207, 207, 207),
+                                        fontSize: 14),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    '翻页方式',
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 207, 207, 207),
+                                        fontSize: 14),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
                               ),
                             ],
                           ),

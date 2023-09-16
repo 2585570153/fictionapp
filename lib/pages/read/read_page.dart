@@ -1,12 +1,8 @@
 import 'dart:ui';
 
 import 'package:fictionapp/pages/read/read_bottom_bar.dart';
-import 'package:fictionapp/pages/read/read_controller.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import 'package:get/get.dart';
 
 import '../../dao/chapter_dao.dart';
 import '../../dao/fiction_dao.dart';
@@ -36,7 +32,6 @@ class _ReadPageState extends State<ReadPage> {
   }
 
   // 在构造函数中接收 id 参数
-  final ReadController controller = Get.put(ReadController());
 
   final ScrollController _controller = ScrollController(); //显示滚轮
   FictionItem items = FictionItem(); // 存储小说数据的对象
@@ -473,7 +468,11 @@ class _ReadPageState extends State<ReadPage> {
                   ),
                 ],
               ),
-        bottomNavigationBar: ReadBottomBar());
+        bottomNavigationBar: chapterList.length == 0 //判断异步加载是否完成
+            ? Center(
+                child: CircularProgressIndicator(), // 如果 items 为空，显示加载指示器
+              )
+            : ReadBottomBar(chapterList[0]));
   }
 
   //发送请求
