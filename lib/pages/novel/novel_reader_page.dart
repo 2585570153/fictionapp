@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../dao/chapter_dao.dart';
 import '../../entity/chapter.dart';
 import '../../routes/global.dart';
+import '../../util/c.dart';
 
 // ignore: must_be_immutable
 class NovelReaderPage extends StatefulWidget {
@@ -19,8 +20,22 @@ class NovelReaderPage extends StatefulWidget {
 class _NovelReaderPageState extends State<NovelReaderPage> {
   final ScrollController _controller = ScrollController(); //显示滚轮
   ChapterItem items = ChapterItem(); // 存储小说文本的内容
+  //显示状态栏
   bool isStackVisible = false;
+  //显示设置状态栏
   bool isSettingStack = false;
+
+  //背景颜色选择器
+  Map<String, dynamic> hasClicked = {};
+  //字体大小
+  double fontSize = 20;
+  //字间距
+  double fontHeight = 2.8;
+  //字体颜色
+  Color fontColor = Color.fromARGB(255, 0, 0, 0);
+  //默认背景颜色
+  Color customColor = Color.fromARGB(255, 241, 233, 205);
+
   List<ChapterItem> chapterList = [];
   @override
   void initState() {
@@ -65,7 +80,13 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                               ),
                             ),
                             ListTile(
-                              title: Text('${item.title}'),
+                              title: Text(
+                                '${item.title}',
+                                style: item.chapterId.toString() ==
+                                        widget.chapterId
+                                    ? TextStyle(color: Colors.blue)
+                                    : TextStyle(color: Colors.black),
+                              ),
                               onTap: () {
                                 Global.router.navigateTo(
                                   context,
@@ -80,7 +101,12 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                       }
 
                       return ListTile(
-                        title: Text('${item.title}'),
+                        title: Text(
+                          '${item.title}',
+                          style: item.chapterId.toString() == widget.chapterId
+                              ? TextStyle(color: Colors.blue)
+                              : TextStyle(color: Colors.black),
+                        ),
                         onTap: () {
                           Global.router.navigateTo(
                             context,
@@ -110,7 +136,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
               },
               child: Stack(children: [
                 Container(
-                  color: Color.fromARGB(255, 241, 233, 205),
+                  color: customColor,
                   padding: EdgeInsets.only(top: 20.0, left: 16.0, right: 13.0),
                   child: SingleChildScrollView(
                     // 使用SingleChildScrollView允许文本超出屏幕高度时可以滚动
@@ -118,8 +144,9 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                       textAlign: TextAlign.left,
                       "${items.content}",
                       style: TextStyle(
-                        fontSize: 20.0,
-                        height: 2.8, // 行间距
+                        fontSize: fontSize,
+                        height: fontHeight, // 行间距
+                        color: fontColor
                       ),
                     ),
                   ),
@@ -144,8 +171,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                               children: [
                                 IconButton(
                                   icon: Icon(Icons.arrow_back,
-                                      color:
-                                          Color.fromARGB(255, 207, 207, 207)),
+                                      color: C.STATUSBARFONTCOLOR),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
@@ -156,25 +182,24 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                 Text(
                                   "反馈",
                                   style: TextStyle(
-                                      color: Color.fromARGB(255, 207, 207, 207),
+                                      color: C.STATUSBARFONTCOLOR,
                                       fontSize: 14),
                                 ),
                                 Text(
                                   "分享",
                                   style: TextStyle(
-                                      color: Color.fromARGB(255, 207, 207, 207),
+                                      color: C.STATUSBARFONTCOLOR,
                                       fontSize: 14),
                                 ),
                                 Text(
                                   "刷新",
                                   style: TextStyle(
-                                      color: Color.fromARGB(255, 207, 207, 207),
+                                      color: C.STATUSBARFONTCOLOR,
                                       fontSize: 14),
                                 ),
                                 IconButton(
                                   icon: Icon(Icons.menu,
-                                      color:
-                                          Color.fromARGB(255, 207, 207, 207)),
+                                      color: C.STATUSBARFONTCOLOR),
                                   onPressed: () {},
                                 ),
                               ],
@@ -188,7 +213,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                 Text(
                                   "内容由书友整理，校队并上传，如有疑问请反馈我们",
                                   style: TextStyle(
-                                      color: Color.fromARGB(255, 207, 207, 207),
+                                      color: C.STATUSBARFONTCOLOR,
                                       fontSize: 13),
                                 ),
                               ],
@@ -228,8 +253,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   Text(
                                     '上一章',
                                     style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 207, 207, 207),
+                                        color: C.STATUSBARFONTCOLOR,
                                         fontSize: 14),
                                   ),
                                   SizedBox(
@@ -253,8 +277,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   Text(
                                     '下一章',
                                     style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 207, 207, 207),
+                                        color: C.STATUSBARFONTCOLOR,
                                         fontSize: 14),
                                   ),
                                   SizedBox(
@@ -280,16 +303,14 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                       child: Column(
                                         children: [
                                           Icon(Icons.menu,
-                                              color: Color.fromARGB(
-                                                  255, 207, 207, 207)),
+                                              color: C.STATUSBARFONTCOLOR),
                                           SizedBox(
                                             height: 8,
                                           ),
                                           Text(
                                             '目录',
                                             style: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 207, 207, 207)),
+                                                color: C.STATUSBARFONTCOLOR),
                                           ),
                                         ],
                                       ),
@@ -301,16 +322,14 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   Column(
                                     children: [
                                       Icon(Icons.brightness_3,
-                                          color: Color.fromARGB(
-                                              255, 207, 207, 207)),
+                                          color: C.STATUSBARFONTCOLOR),
                                       SizedBox(
                                         height: 8,
                                       ),
                                       Text(
                                         '夜间',
                                         style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 207, 207, 207)),
+                                            color: C.STATUSBARFONTCOLOR),
                                       ),
                                     ],
                                   ),
@@ -320,16 +339,14 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   Column(
                                     children: [
                                       Icon(Icons.lightbulb_outline,
-                                          color: Color.fromARGB(
-                                              255, 207, 207, 207)),
+                                          color: C.STATUSBARFONTCOLOR),
                                       SizedBox(
                                         height: 8,
                                       ),
                                       Text(
                                         '亮度',
                                         style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 207, 207, 207)),
+                                            color: C.STATUSBARFONTCOLOR),
                                       ),
                                     ],
                                   ),
@@ -339,16 +356,14 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   Column(
                                     children: [
                                       Icon(Icons.cached,
-                                          color: Color.fromARGB(
-                                              255, 207, 207, 207)),
+                                          color: C.STATUSBARFONTCOLOR),
                                       SizedBox(
                                         height: 8,
                                       ),
                                       Text(
                                         '缓存',
                                         style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 207, 207, 207)),
+                                            color: C.STATUSBARFONTCOLOR),
                                       ),
                                     ],
                                   ),
@@ -364,16 +379,14 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                     child: Column(
                                       children: [
                                         Icon(Icons.settings,
-                                            color: Color.fromARGB(
-                                                255, 207, 207, 207)),
+                                            color: C.STATUSBARFONTCOLOR),
                                         SizedBox(
                                           height: 8,
                                         ),
                                         Text(
                                           '设置',
                                           style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 207, 207, 207)),
+                                              color: C.STATUSBARFONTCOLOR),
                                         ),
                                       ],
                                     ),
@@ -397,12 +410,12 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                       child: GestureDetector(
                         onTap: () {},
                         child: Container(
-                          height: 170, // 保持高度为150像素
+                          height: 220, // 保持高度为150像素
                           color: const Color.fromARGB(240, 33, 31, 31),
                           child: Column(
                             children: [
                               SizedBox(
-                                height: 20,
+                                height: 10,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -413,17 +426,50 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   Text(
                                     '字体',
                                     style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 207, 207, 207),
-                                        fontSize: 14),
+                                      color: C.STATUSBARFONTCOLOR,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 20,
                                   ),
+                                  IconButton(
+                                    onPressed: () {
+                                      if (fontSize > 10.0)
+                                        // 减少字号大小的逻辑
+                                        setState(() {
+                                          fontSize -= 1;
+                                        });
+                                    },
+                                    icon: Icon(Icons.remove,
+                                        color: C.STATUSBARFONTCOLOR),
+                                  ),
+                                  Slider(
+                                    value: fontSize,
+                                    onChanged: (newValue) {
+                                      // 更新字号大小的逻辑
+                                      setState(() {
+                                        fontSize = newValue;
+                                      });
+                                    },
+                                    min: 10, // 最小字号
+                                    max: 30, // 最大字号
+                                    activeColor:
+                                        C.STATUSBARFONTCOLOR, // 设置激活状态的颜色
+                                    inactiveColor: Colors.grey, // 设置非激活状态的颜色
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      // 增加字号大小的逻辑
+                                      if (fontSize < 30.0)
+                                        setState(() {
+                                          fontSize += 1;
+                                        });
+                                    },
+                                    icon: Icon(Icons.add,
+                                        color: C.STATUSBARFONTCOLOR),
+                                  ),
                                 ],
-                              ),
-                              SizedBox(
-                                height: 20,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -434,12 +480,47 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   Text(
                                     '间距',
                                     style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 207, 207, 207),
+                                        color: C.STATUSBARFONTCOLOR,
                                         fontSize: 14),
                                   ),
                                   SizedBox(
                                     width: 20,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      if (fontHeight > 1)
+                                        // 减少字号大小的逻辑
+                                        setState(() {
+                                          fontHeight -= 0.1;
+                                        });
+                                    },
+                                    icon: Icon(Icons.remove,
+                                        color: C.STATUSBARFONTCOLOR),
+                                  ),
+                                  Slider(
+                                    value: fontHeight,
+                                    onChanged: (newValue) {
+                                      // 更新字号大小的逻辑
+                                      setState(() {
+                                        fontHeight = newValue;
+                                      });
+                                    },
+                                    min: 1.0, // 最小字号
+                                    max: 4.0, // 最大字号
+                                    activeColor:
+                                        C.STATUSBARFONTCOLOR, // 设置激活状态的颜色
+                                    inactiveColor: Colors.grey, // 设置非激活状态的颜色
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      // 增加字号大小的逻辑
+                                      if (fontHeight < 4.0)
+                                        setState(() {
+                                          fontHeight += 0.1;
+                                        });
+                                    },
+                                    icon: Icon(Icons.add,
+                                        color: C.STATUSBARFONTCOLOR),
                                   ),
                                 ],
                               ),
@@ -455,12 +536,125 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   Text(
                                     '背景',
                                     style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 207, 207, 207),
+                                        color: C.STATUSBARFONTCOLOR,
                                         fontSize: 14),
                                   ),
                                   SizedBox(
                                     width: 20,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        customColor = Colors.green;
+                                        fontColor= Colors.black;
+                                        hasClicked["color"] = "1";
+                                        //添加一个标志，表示已点击
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 20, // 圆形的宽度
+                                      height: 20, // 圆形的高度
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle, // 指定为圆形
+                                        color: Colors.green, // 设置颜色，这里是绿色
+                                        border: hasClicked.isNotEmpty &&
+                                                hasClicked["color"] == "1"
+                                            ? Border.all(
+                                                color: Color.fromARGB(255, 255, 255, 255),
+                                                width: 2.0)
+                                            : null, // 显示边框如果已点击
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        customColor = Color.fromARGB(255, 241, 233, 205);
+                                        fontColor= Colors.black;
+                                        hasClicked["color"] = "2";
+                                        //添加一个标志，表示已点击
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 20, // 圆形的宽度
+                                      height: 20, // 圆形的高度
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle, // 指定为圆形
+                                        color: Color.fromARGB(255, 241, 233, 205), // 设置颜色，这里是绿色
+                                        border: hasClicked.isNotEmpty &&
+                                            hasClicked["color"] == "2"
+                                            ? Border.all(
+                                            color: Color.fromARGB(255, 255, 255, 255),
+                                            width: 2.0)
+                                            : null, // 显示边框如果已点击
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        customColor = const Color.fromARGB(255, 0, 0, 0);
+                                        fontColor=const Color.fromARGB(255, 229, 226, 226);
+                                        hasClicked["color"] = "3";
+                                        //添加一个标志，表示已点击
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 20, // 圆形的宽度
+                                      height: 20, // 圆形的高度
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle, // 指定为圆形
+                                        color: const Color.fromARGB(255, 0, 0, 0), // 设置颜色
+                                        border: hasClicked.isNotEmpty &&
+                                            hasClicked["color"] == "3"
+                                            ? Border.all(
+                                            color: Color.fromARGB(255, 255, 255, 255),
+                                            width: 2.0)
+                                            : null, // 显示边框如果已点击
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    '独家',
+                                    style: TextStyle(
+                                        color: C.STATUSBARFONTCOLOR,
+                                        fontSize: 14),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        customColor = const Color.fromARGB(255, 0, 0, 0);
+                                        fontColor=const Color.fromARGB(255, 229, 226, 226);
+                                        hasClicked["color"] = "3";
+                                        //添加一个标志，表示已点击
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 20, // 圆形的宽度
+                                      height: 20, // 圆形的高度
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle, // 指定为圆形
+                                        color: const Color.fromARGB(255, 0, 0, 0), // 设置颜色
+                                        border: hasClicked.isNotEmpty &&
+                                            hasClicked["color"] == "3"
+                                            ? Border.all(
+                                            color: Color.fromARGB(255, 255, 255, 255),
+                                            width: 2.0)
+                                            : null, // 显示边框如果已点击
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -476,8 +670,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   Text(
                                     '翻页方式',
                                     style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 207, 207, 207),
+                                        color: C.STATUSBARFONTCOLOR,
                                         fontSize: 14),
                                   ),
                                   SizedBox(
