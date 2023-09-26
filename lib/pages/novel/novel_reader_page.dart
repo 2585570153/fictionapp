@@ -5,6 +5,7 @@ import '../../dao/chapter_dao.dart';
 import '../../entity/chapter.dart';
 import '../../routes/global.dart';
 import '../../util/c.dart';
+import '../../util/common_image.dart';
 
 // ignore: must_be_immutable
 class NovelReaderPage extends StatefulWidget {
@@ -25,7 +26,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
   //显示设置状态栏
   bool isSettingStack = false;
 
-  //背景颜色选择器
+  //背景边框颜色选择器
   Map<String, dynamic> hasClicked = {};
   //字体大小
   double fontSize = 20;
@@ -35,6 +36,8 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
   Color fontColor = Color.fromARGB(255, 0, 0, 0);
   //默认背景颜色
   Color customColor = Color.fromARGB(255, 241, 233, 205);
+  //默认背景图片颜色
+  String customColorImg = "0";
 
   List<ChapterItem> chapterList = [];
   @override
@@ -136,7 +139,13 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
               },
               child: Stack(children: [
                 Container(
-                  color: customColor,
+                  decoration:  BoxDecoration(
+                    image:  DecorationImage(
+                      image: AssetImage('assets/images/background/$customColorImg.png'),
+                      fit: BoxFit.fill,
+                    ),
+                    color: customColor
+                  ),
                   padding: EdgeInsets.only(top: 20.0, left: 16.0, right: 13.0),
                   child: SingleChildScrollView(
                     // 使用SingleChildScrollView允许文本超出屏幕高度时可以滚动
@@ -547,6 +556,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                       setState(() {
                                         customColor = Colors.green;
                                         fontColor= Colors.black;
+                                        customColorImg = "0";
                                         hasClicked["color"] = "1";
                                         //添加一个标志，表示已点击
                                       });
@@ -574,6 +584,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                       setState(() {
                                         customColor = Color.fromARGB(255, 241, 233, 205);
                                         fontColor= Colors.black;
+                                        customColorImg = "0";
                                         hasClicked["color"] = "2";
                                         //添加一个标志，表示已点击
                                       });
@@ -601,6 +612,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                       setState(() {
                                         customColor = const Color.fromARGB(255, 0, 0, 0);
                                         fontColor=const Color.fromARGB(255, 229, 226, 226);
+                                        customColorImg = "0";
                                         hasClicked["color"] = "3";
                                         //添加一个标志，表示已点击
                                       });
@@ -635,9 +647,9 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   InkWell(
                                     onTap: () {
                                       setState(() {
-                                        customColor = const Color.fromARGB(255, 0, 0, 0);
-                                        fontColor=const Color.fromARGB(255, 229, 226, 226);
-                                        hasClicked["color"] = "3";
+                                        fontColor=const Color.fromARGB(255, 0, 0, 0);
+                                        customColorImg = "2";
+                                        hasClicked["color"] = "4";
                                         //添加一个标志，表示已点击
                                       });
                                     },
@@ -645,10 +657,45 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                       width: 20, // 圆形的宽度
                                       height: 20, // 圆形的高度
                                       decoration: BoxDecoration(
+                                        image: const DecorationImage(
+                                          image: AssetImage('assets/images/background/2.png'), // 替换为您的图片路径
+                                          fit: BoxFit.cover, // 适应方式，可以根据需要调整
+                                        ),
                                         shape: BoxShape.circle, // 指定为圆形
                                         color: const Color.fromARGB(255, 0, 0, 0), // 设置颜色
                                         border: hasClicked.isNotEmpty &&
-                                            hasClicked["color"] == "3"
+                                            hasClicked["color"] == "4"
+                                            ? Border.all(
+                                            color: Color.fromARGB(255, 255, 255, 255),
+                                            width: 2.0)
+                                            : null, // 显示边框如果已点击
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        fontColor=const Color.fromARGB(255, 255, 255, 255);
+                                        customColorImg = "1";
+                                        hasClicked["color"] = "5";
+                                        //添加一个标志，表示已点击
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 20, // 圆形的宽度
+                                      height: 20, // 圆形的高度
+                                      decoration: BoxDecoration(
+                                        image: const DecorationImage(
+                                          image: AssetImage('assets/images/background/1.png'), // 替换为您的图片路径
+                                          fit: BoxFit.fitWidth, // 适应方式，可以根据需要调整
+                                        ),
+                                        shape: BoxShape.circle, // 指定为圆形
+                                        color: const Color.fromARGB(255, 0, 0, 0), // 设置颜色
+                                        border: hasClicked.isNotEmpty &&
+                                            hasClicked["color"] == "5"
                                             ? Border.all(
                                             color: Color.fromARGB(255, 255, 255, 255),
                                             width: 2.0)
