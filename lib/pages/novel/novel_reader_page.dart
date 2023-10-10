@@ -23,7 +23,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
 
   ScrollController _scrollController = ScrollController();//小说加载控制器
 
-  ChapterItem items = ChapterItem();
+
   //显示状态栏
   bool isStackVisible = false;
   //显示设置状态栏
@@ -42,12 +42,11 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
   //默认背景图片颜色
   String customColorImg = "0";
 
-  //控制章节加载的第n章
   List<ChapterItem> itemsChapterList=[];
   bool _isLoadingTop = false;
   bool _isLoadingBottom = false;
 
-  List<ChapterItem> chapterList = [];  // 存储小说文本的内容
+  List<ChapterItem> chapterList = [];
   @override
   void initState() {
     super.initState();
@@ -75,11 +74,11 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
     setState(() {
       if (isTop) {
         _isLoadingTop = true;
-        _loadMoreDataContenttxt((int.parse(widget.chapterId!) - 1).toString());
+        _loadMoreDataContenttxt(isTop,(int.parse(widget.chapterId!) - 1).toString());
         _isLoadingTop = false;
       } else {
         _isLoadingBottom = true;
-        _loadMoreDataContenttxt((int.parse(widget.chapterId!) + 1).toString());
+        _loadMoreDataContenttxt(isTop,(int.parse(widget.chapterId!) + 1).toString());
         _isLoadingBottom = false;
       }
     });
@@ -176,7 +175,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                 ),
               ),
             ),
-      body: items.content == null //判断异步加载是否完成
+      body: itemsChapterList.length == 0 //判断异步加载是否完成
           ? Center(
               child: CircularProgressIndicator(), // 如果 items 为空，显示加载指示器
             )
@@ -201,7 +200,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                   padding: EdgeInsets.only(top: 20.0, left: 13.0, right: 13.0),
                   child: ListView.builder(
                   controller: _scrollController,
-                  itemCount: chapterItemId+ 2,
+                  itemCount: itemsChapterList.length+ 2,
                   itemBuilder: (BuildContext context, int index) {
                     if (index == 0) {
                       // 顶部加载状态
@@ -213,7 +212,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                         ),
                       )
                           : SizedBox.shrink();
-                    } else if (index == chapterItemId + 1) {
+                    } else if (index == itemsChapterList.length + 1) {
                       // 底部加载状态
                       return _isLoadingBottom
                           ? Padding(
@@ -228,7 +227,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                         children: [
                           Text(
                             textAlign: TextAlign.left,
-                            "${items.content}",
+                            "${itemsChapterList[index-1].content}",
                             style: TextStyle(
                                 fontSize: fontSize,
                                 height: fontHeight, // 行间距
@@ -835,7 +834,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
   Future<void> _getContenttxt() async {
     ChapterItem contenttxt = await getContenttxt(context, id: widget.chapterId);
     setState(() {
-      items = contenttxt;
+    itemsChapterList.add(contenttxt);
     });
   }
 
@@ -849,11 +848,15 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
   }
 
   //加载上下一章
-  Future<void> _loadMoreDataContenttxt(String id) async {
+  Future<void> _loadMoreDataContenttxt(bool isTop, String id) async {
     ChapterItem contenttxt = await getContenttxt(context, id: id);
     setState(() {
-      items = contenttxt;
-      widget.chapterId=id;
+      if (isTop) {
+        itemsChapterList.insert(0, contenttxt);
+      } else {
+        itemsChapterList.add(contenttxt);
+      }
+      widget.chapterId = id;
     });
   }
 }
