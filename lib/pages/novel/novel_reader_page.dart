@@ -5,7 +5,6 @@ import '../../dao/chapter_dao.dart';
 import '../../entity/chapter.dart';
 import '../../routes/global.dart';
 import '../../util/c.dart';
-import '../../util/common_image.dart';
 
 // ignore: must_be_immutable
 class NovelReaderPage extends StatefulWidget {
@@ -19,8 +18,12 @@ class NovelReaderPage extends StatefulWidget {
 }
 
 class _NovelReaderPageState extends State<NovelReaderPage> {
-  final ScrollController _controller = ScrollController(); //显示滚轮
-  ChapterItem items = ChapterItem(); // 存储小说文本的内容
+
+  ScrollController _controller = ScrollController(); //显示滚轮
+
+  ScrollController _scrollController = ScrollController();//小说加载控制器
+
+  ChapterItem items = ChapterItem();
   //显示状态栏
   bool isStackVisible = false;
   //显示设置状态栏
@@ -39,12 +42,61 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
   //默认背景图片颜色
   String customColorImg = "0";
 
-  List<ChapterItem> chapterList = [];
+  //控制章节加载的第n章
+  List<ChapterItem> itemsChapterList=[];
+  bool _isLoadingTop = false;
+  bool _isLoadingBottom = false;
+
+  List<ChapterItem> chapterList = [];  // 存储小说文本的内容
   @override
   void initState() {
     super.initState();
     _getContenttxt();
     _loadChapterList();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        // 滚动到底部，加载更多数据
+        if (!_isLoadingBottom) {
+          _loadMoreData(false);
+        }
+      } else if (_scrollController.position.pixels ==
+          _scrollController.position.minScrollExtent) {
+        // 滚动到顶部，加载更多数据
+        if (!_isLoadingTop) {
+          _loadMoreData(true);
+        }
+      }
+    });
+  }
+  // 模拟加载更多数据的方法
+  void _loadMoreData(bool isTop) {
+    // 根据 isTop 的值来决定是向上加载还是向下加载
+    setState(() {
+      if (isTop) {
+        _isLoadingTop = true;
+        _loadMoreDataContenttxt((int.parse(widget.chapterId!) - 1).toString());
+        _isLoadingTop = false;
+      } else {
+        _isLoadingBottom = true;
+        _loadMoreDataContenttxt((int.parse(widget.chapterId!) + 1).toString());
+        _isLoadingBottom = false;
+      }
+    });
+    // // 模拟异步加载数据的过程
+    // Future.delayed(Duration(seconds: 2), () {
+    //   setState(() {
+    //     if (isTop) {
+    //       // 向上加载，在列表顶部插入新数据
+    //       _loadMoreDataContenttxt((int.parse(widget.chapterId!) - 1).toString());
+    //       _isLoadingTop = false;
+    //     } else {
+    //       // 向下加载，在列表底部追加新数据
+    //       _loadMoreDataContenttxt((int.parse(widget.chapterId!) + 1).toString());
+    //       _isLoadingBottom = false;
+    //     }
+    //   });
+    // });
   }
 
   @override
@@ -146,19 +198,51 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                     ),
                     color: customColor
                   ),
-                  padding: EdgeInsets.only(top: 20.0, left: 16.0, right: 13.0),
-                  child: SingleChildScrollView(
-                    // 使用SingleChildScrollView允许文本超出屏幕高度时可以滚动
-                    child: Text(
-                      textAlign: TextAlign.left,
-                      "${items.content}",
-                      style: TextStyle(
-                        fontSize: fontSize,
-                        height: fontHeight, // 行间距
-                        color: fontColor
-                      ),
+                  padding: EdgeInsets.only(top: 20.0, left: 13.0, right: 13.0),
+                  child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: chapterItemId+ 2,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == 0) {
+                      // 顶部加载状态
+                      return _isLoadingTop
+                          ? Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                          : SizedBox.shrink();
+                    } else if (index == chapterItemId + 1) {
+                      // 底部加载状态
+                      return _isLoadingBottom
+                          ? Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                          : SizedBox.shrink();
+                    } else {
+                      return Column(
+                        children: [
+                          Text(
+                            textAlign: TextAlign.left,
+                            "${items.content}",
+                            style: TextStyle(
+                                fontSize: fontSize,
+                                height: fontHeight, // 行间距
+                                color: fontColor
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      );
+                    }
+                      }
                     ),
-                  ),
                 ),
                 //顶部状态栏
                 if (isStackVisible)
@@ -419,7 +503,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                       child: GestureDetector(
                         onTap: () {},
                         child: Container(
-                          height: 220, // 保持高度为150像素
+                          height: 205, // 保持高度为150像素
                           color: const Color.fromARGB(240, 33, 31, 31),
                           child: Column(
                             children: [
@@ -723,6 +807,12 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   SizedBox(
                                     width: 20,
                                   ),
+                                  Text(
+                                    '默认上下翻页，后期更新',
+                                    style: TextStyle(
+                                        color: C.STATUSBARFONTCOLOR,
+                                        fontSize: 14),
+                                  ),
                                 ],
                               ),
                               SizedBox(
@@ -736,7 +826,11 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
             ),
     );
   }
-
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
   //发送章节内存
   Future<void> _getContenttxt() async {
     ChapterItem contenttxt = await getContenttxt(context, id: widget.chapterId);
@@ -751,6 +845,15 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
         await getFictionChapter(context, id: widget.fictionId);
     setState(() {
       chapterList = fictionChapterList;
+    });
+  }
+
+  //加载上下一章
+  Future<void> _loadMoreDataContenttxt(String id) async {
+    ChapterItem contenttxt = await getContenttxt(context, id: id);
+    setState(() {
+      items = contenttxt;
+      widget.chapterId=id;
     });
   }
 }
