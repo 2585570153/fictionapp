@@ -9,7 +9,7 @@ import '../../util/c.dart';
 // ignore: must_be_immutable
 class NovelReaderPage extends StatefulWidget {
   String? chapterId;
-  String? fictionId;
+  String? fictionId; // fictionId声明为可空类型
 
   NovelReaderPage({Key? key, this.chapterId, this.fictionId}) : super(key: key);
 
@@ -19,7 +19,9 @@ class NovelReaderPage extends StatefulWidget {
 
 class _NovelReaderPageState extends State<NovelReaderPage> {
 
-  ScrollController _controller = ScrollController(); //显示滚轮
+  ScrollController _controller = ScrollController(
+    initialScrollOffset: 20.0, // 设置初始滚动位置
+  ); //显示滚轮
 
   ScrollController _scrollController = ScrollController();//小说加载控制器
 
@@ -40,7 +42,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
   //默认背景颜色
   Color customColor = Color.fromARGB(255, 241, 233, 205);
   //默认背景图片颜色
-  String customColorImg = "0";
+  String customColorImg = "2";
 
   List<ChapterItem> itemsChapterList=[];
   bool _isLoadingTop = false;
@@ -111,9 +113,12 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
 
                 child: Scrollbar(
                   controller: _controller,
-                  thickness: 8.0, // 设置Scrollbar的宽度
-                  radius: Radius.circular(4.0), // 设置Scrollbar的圆角半径
+                  isAlwaysShown: true, // 是否一直显示
+                  interactive:true,//开启用户控制
+                  thickness: 15.0, // 设置Scrollbar的宽度
+                  radius: Radius.circular(2.0), // 设置Scrollbar的圆角半径
                   child: ListView.builder(
+                    controller: _controller,
                     itemCount: chapterList.length,
                     itemBuilder: (BuildContext context, int index) {
                       ChapterItem item = chapterList[index];
@@ -197,7 +202,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                     ),
                     color: customColor
                   ),
-                  padding: EdgeInsets.only(top: 20.0, left: 13.0, right: 13.0),
+                  padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 13.0),
                   child: ListView.builder(
                   controller: _scrollController,
                   itemCount: itemsChapterList.length+ 2,
@@ -210,8 +215,7 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                         child: Center(
                           child: CircularProgressIndicator(),
                         ),
-                      )
-                          : SizedBox.shrink();
+                      ) : SizedBox.shrink();
                     } else if (index == itemsChapterList.length + 1) {
                       // 底部加载状态
                       return _isLoadingBottom
@@ -224,7 +228,20 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                           : SizedBox.shrink();
                     } else {
                       return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start, // 设置次轴对齐方式为左对齐
                         children: [
+                          Text(
+                            textAlign: TextAlign.left,
+                            "${itemsChapterList[index-1].title}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, // 设置字体加粗
+                                fontSize: 22,
+                                color: fontColor
+                            ),
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
                           Text(
                             textAlign: TextAlign.left,
                             "${itemsChapterList[index-1].content}",
@@ -342,11 +359,22 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text(
-                                    '上一章',
-                                    style: TextStyle(
-                                        color: C.STATUSBARFONTCOLOR,
-                                        fontSize: 14),
+                                  InkWell(
+                                    onTap: () {
+                                      int chapterId = int.parse(widget.chapterId!);
+                                      Global.router.navigateTo(
+                                        context,
+                                        "/novel/${chapterId-1}/${widget.fictionId}",
+                                        replace: true, // 设置replace为true来替换前一个页面
+                                        transition: TransitionType.fadeIn,
+                                      );
+                                    },
+                                    child: Text(
+                                      '上一章',
+                                      style: TextStyle(
+                                          color: C.STATUSBARFONTCOLOR,
+                                          fontSize: 14),
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 20,
@@ -366,11 +394,22 @@ class _NovelReaderPageState extends State<NovelReaderPage> {
                                   SizedBox(
                                     width: 20,
                                   ),
-                                  Text(
-                                    '下一章',
-                                    style: TextStyle(
-                                        color: C.STATUSBARFONTCOLOR,
-                                        fontSize: 14),
+                                  InkWell(
+                                    onTap: () {
+                                      int chapterId = int.parse(widget.chapterId!);
+                                      Global.router.navigateTo(
+                                        context,
+                                        "/novel/${chapterId+1}/${widget.fictionId}",
+                                        replace: true, // 设置replace为true来替换前一个页面
+                                        transition: TransitionType.fadeIn,
+                                      );
+                                    },
+                                    child: Text(
+                                      '下一章',
+                                      style: TextStyle(
+                                          color: C.STATUSBARFONTCOLOR,
+                                          fontSize: 14),
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 10,

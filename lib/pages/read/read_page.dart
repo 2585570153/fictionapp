@@ -57,9 +57,12 @@ class _ReadPageState extends State<ReadPage> {
 
                   child: Scrollbar(
                     controller: _controller,
-                    thickness: 8.0, // 设置Scrollbar的宽度
-                    radius: Radius.circular(4.0), // 设置Scrollbar的圆角半径
+                    interactive:true,
+                    isAlwaysShown: true, // 是否一直显示
+                    thickness: 15.0, // 设置Scrollbar的宽度
+                    radius: Radius.circular(2.0), // 设置Scrollbar的圆角半径
                     child: ListView.builder(
+                      controller: _controller,
                       itemCount: chapterList.length,
                       itemBuilder: (BuildContext context, int index) {
                         ChapterItem item = chapterList[index];
